@@ -13,6 +13,6 @@ class ProductObserver
 
     public function updating(Products $products)
     {
-        $products->updated_by = auth()->user()->id;
+        $products->updated_by = isset(auth()->user()->id) ? auth()->user()->id : null;
     }
 }

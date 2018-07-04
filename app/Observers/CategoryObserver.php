@@ -13,6 +13,6 @@ class CategoryObserver
 
     public function updating(Categories $categories)
     {
-        $categories->updated_by = auth()->user()->id;
+        $categories->updated_by = isset(auth()->user()->id) ? auth()->user()->id : null;
     }
 }
