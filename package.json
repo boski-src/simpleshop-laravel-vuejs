@@ -1,0 +1,36 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "watch": "npm run development -- --watch",
+        "watch-poll": "npm run watch -- --watch-poll",
+        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "prod": "npm run production",
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    },
+    "devDependencies": {
+        "axios": "^0.18",
+        "bootstrap": "^4.1.0",
+        "browser-sync": "^2.24.4",
+        "browser-sync-webpack-plugin": "^2.2.2",
+        "cross-env": "^5.1",
+        "epic-spinners": "^1.0.3",
+        "jquery": "^3.2",
+        "laravel-echo": "^1.4.0",
+        "laravel-mix": "*",
+        "lodash": "^4.17.4",
+        "mdbootstrap": "^4.5.3",
+        "popper.js": "^1.12",
+        "pusher-js": "^4.2.2",
+        "vue": "^2.5.7",
+        "vue-router": "^3.0.1",
+        "vuex": "^3.0.1"
+    },
+    "dependencies": {
+        "vee-validate": "^2.0.9",
+        "vue-izitoast": "^1.1.0",
+        "vue-mugen-scroll": "^0.2.5",
+        "vue-sweetalert2": "^1.2.4"
+    }
+}

@@ -1,0 +1,55 @@
+html,
+body,
+header,
+.carousel
+{
+  height: 60vh;
+}
+
+@media (max-width: 740px)
+{
+  html,
+  body,
+  header,
+  .carousel
+  {
+    height: 100vh;
+  }
+}
+
+@media (min-width: 800px) and (max-width: 850px)
+{
+  html,
+  body,
+  header,
+  .carousel
+  {
+    height: 100vh;
+  }
+}
+
+.modal-backdrop
+{
+  display: none !important;
+}
+
+.modal
+{
+  bottom: auto;
+}
+
+.title
+{
+  text-transform: capitalize;
+}
+
+.loader
+{
+  text-align: center;
+  align-content: center;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  margin: 5rem 0;
+}
