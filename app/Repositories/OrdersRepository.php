@@ -37,13 +37,13 @@ class OrdersRepository
                 'order_id' => $order['id'],
                 'product_id' => $product['id'],
                 'count' => $product['quantity'],
-                'price' => ($item['price'] * $product['quantity']),
+                'price' => round(($item['price'] * $product['quantity']), 2),
             ]);
 
             $price += $item['price'] * $product['quantity'];
         }
 
-        $order->price = $price;
+        $order->price = round($price, 2);
         $order->save();
 
         return $order;

@@ -35,14 +35,16 @@
 </template>
 
 <script>
-  import CategoryService from '../../services/Categories'
   import {HalfCircleSpinner} from 'epic-spinners'
   import MugenScroll from 'vue-mugen-scroll'
+  import ProductItem from '../../components/ProductItem'
+  import CategoryService from '../../services/Categories'
 
   export default {
     components: {
       HalfCircleSpinner,
-      MugenScroll
+      MugenScroll,
+      ProductItem
     },
     data: () => ({
       loading: true,

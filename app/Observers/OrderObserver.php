@@ -8,11 +8,11 @@ class OrderObserver
 {
     public function creating(Orders $orders)
     {
-        $orders->created_by = isset(auth()->user()->id) ? auth()->user()->id : null;
+        if (isset(auth()->user()->id)) $orders->created_by = auth()->user()->id;
     }
 
     public function updating(Orders $orders)
     {
-        $orders->updated_by = isset(auth()->user()->id) ? auth()->user()->id : null;
+        if (isset(auth()->user()->id)) $orders->updated_by = auth()->user()->id;
     }
 }

@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
                 $table->char('slug')->unique();
                 $table->char('name', 64);
                 $table->text('description');
-                $table->integer('price')->default(0);
+                $table->float('price');
                 $table->integer('available')->default(1);
                 $table->integer('status')->default(1);
                 $table->integer('created_by')->nullable();

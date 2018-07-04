@@ -19,7 +19,7 @@ class CreateOrdersItemsTable extends Migration
                 $table->integer('order_id');
                 $table->integer('product_id');
                 $table->integer('count');
-                $table->char('price');
+                $table->float('price');
                 $table->double('status')->default(1);
                 $table->timestamps();
             });

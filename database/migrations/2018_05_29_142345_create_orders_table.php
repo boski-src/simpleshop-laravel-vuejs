@@ -19,7 +19,7 @@ class CreateOrdersTable extends Migration
                 $table->string('hash', 32)->unique();
                 $table->string('status', 15)->default('new');
                 $table->text('billing');
-                $table->string('price')->nullable();
+                $table->float('price');
                 $table->double('paid')->default(0);
                 $table->string('payment_status')->nullable();
                 $table->string('payment_id')->nullable();

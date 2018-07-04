@@ -4950,10 +4950,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__services_Categories__ = __webpack_require__("./resources/assets/js/services/Categories.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_epic_spinners__ = __webpack_require__("./node_modules/epic-spinners/src/lib.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_mugen_scroll__ = __webpack_require__("./node_modules/vue-mugen-scroll/dist/vue-mugen-scroll.common.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_mugen_scroll___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue_mugen_scroll__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_epic_spinners__ = __webpack_require__("./node_modules/epic-spinners/src/lib.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_mugen_scroll__ = __webpack_require__("./node_modules/vue-mugen-scroll/dist/vue-mugen-scroll.common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_mugen_scroll___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_mugen_scroll__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_ProductItem__ = __webpack_require__("./resources/assets/js/components/ProductItem.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_ProductItem___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_ProductItem__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_Categories__ = __webpack_require__("./resources/assets/js/services/Categories.js");
 //
 //
 //
@@ -4990,6 +4992,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -4997,8 +5000,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    HalfCircleSpinner: __WEBPACK_IMPORTED_MODULE_1_epic_spinners__["a" /* HalfCircleSpinner */],
-    MugenScroll: __WEBPACK_IMPORTED_MODULE_2_vue_mugen_scroll___default.a
+    HalfCircleSpinner: __WEBPACK_IMPORTED_MODULE_0_epic_spinners__["a" /* HalfCircleSpinner */],
+    MugenScroll: __WEBPACK_IMPORTED_MODULE_1_vue_mugen_scroll___default.a,
+    ProductItem: __WEBPACK_IMPORTED_MODULE_2__components_ProductItem___default.a
   },
   data: function data() {
     return {
@@ -5015,7 +5019,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fetchAll: function fetchAll() {
       var _this = this;
 
-      __WEBPACK_IMPORTED_MODULE_0__services_Categories__["a" /* default */].fetchProducts(this.$route.params.slug, this.page).then(function (response) {
+      __WEBPACK_IMPORTED_MODULE_3__services_Categories__["a" /* default */].fetchProducts(this.$route.params.slug, this.page).then(function (response) {
         return response.data.data;
       }).then(function (response) {
         _this.products = response.products.data;
@@ -5025,7 +5029,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this2 = this;
 
       this.page++;
-      __WEBPACK_IMPORTED_MODULE_0__services_Categories__["a" /* default */].fetchProducts(this.$route.params.slug, this.page).then(function (response) {
+      __WEBPACK_IMPORTED_MODULE_3__services_Categories__["a" /* default */].fetchProducts(this.$route.params.slug, this.page).then(function (response) {
         return response.data;
       }).then(function (response) {
         if (response.success) {
@@ -54992,8 +54996,8 @@ var render = function() {
                       {
                         name: "validate",
                         rawName: "v-validate",
-                        value: "required|integer|min:1",
-                        expression: "'required|integer|min:1'"
+                        value: "required|decimal|min:1",
+                        expression: "'required|decimal|min:1'"
                       }
                     ],
                     staticClass: "form-control",
@@ -55573,7 +55577,7 @@ var render = function() {
           _vm._v(" "),
           _c("small", [
             _vm._v("\n        (In stock: "),
-            _vm.product.available < 0
+            _vm.product.available <= 0
               ? _c("b", [_vm._v("0")])
               : _c("b", [_vm._v(_vm._s(_vm.product.available))]),
             _vm._v(")\n      ")
@@ -55588,7 +55592,7 @@ var render = function() {
       "button",
       {
         staticClass: "btn btn-primary",
-        attrs: { disabled: _vm.product.available < 0 },
+        attrs: { disabled: _vm.product.available <= 0 },
         on: {
           click: function($event) {
             _vm.addToBasket(_vm.product)
@@ -55987,7 +55991,9 @@ var render = function() {
                         _c("td", [
                           _c("b", [
                             _vm._v(
-                              _vm._s(product.quantity * product.price) + "$"
+                              _vm._s(
+                                (product.quantity * product.price).toFixed(2)
+                              ) + "$"
                             )
                           ]),
                           _vm._v(" (" + _vm._s(product.price) + "$)")
@@ -74890,6 +74896,9 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
         title: 'Sign Up'
       }
     }]
+  }, {
+    path: '*',
+    redirect: '/'
   }]
 });
 
@@ -75133,7 +75142,7 @@ var getters = {
     return state.values ? state.values.products : [];
   },
   getPrice: function getPrice(state) {
-    return state.values ? state.values.price : 0;
+    return state.values ? state.values.price.toFixed(2) : 0;
   }
 };
 
@@ -75147,11 +75156,18 @@ var actions = {
       this.clearBasket();
     }
 
-    if (state.values.products.find(function (item) {
+    var productIndex = state.values.products.find(function (item) {
       return item.id === product.id;
-    })) {
+    });
+    if (productIndex) {
+      if (productIndex.quantity >= product.available) {
+        return notify.$toast.warning('Product availability is too low.', 'Warning!', { close: true, toastOnce: true, position: 'topRight' });
+      }
       commit('incrementQuantity', product.id);
     } else {
+      if (!product.available) {
+        return notify.$toast.warning('Product availability is too low.', 'Warning!', { close: true, toastOnce: true, position: 'topRight' });
+      }
       commit('addProduct', product);
       notify.$toast.success('New product has been added to your cart. :)', 'Success!', { close: true, toastOnce: true, position: 'topRight' });
     }
@@ -75172,7 +75188,7 @@ var actions = {
     var productIndex = state.values.products.find(function (item) {
       return item.id === product.id;
     });
-    if (!productIndex) return;
+    if (!productIndex) return false;
 
     if (productIndex.quantity === 1 || soft === true) {
       commit('removeProduct', productIndex.id);
@@ -75198,6 +75214,7 @@ var mutations = {
       slug: product.slug,
       name: product.name,
       price: product.price,
+      available: product.available,
       quantity: 1
     });
     state.values.price += product.price;

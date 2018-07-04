@@ -18,7 +18,7 @@
               <router-link :to="{ name: 'Product', params: { id: product.id, slug: product.slug } }">{{ product.name }}</router-link>
             </td>
             <td>{{ product.quantity }}</td>
-            <td><b>{{ product.quantity * product.price }}$</b> ({{ product.price }}$)</td>
+            <td><b>{{ (product.quantity * product.price).toFixed(2) }}$</b> ({{ product.price }}$)</td>
             <td>
               <button
                     type="button"

@@ -9,7 +9,7 @@ const state = {
 
 const getters = {
   getProducts: state => (state.values ? state.values.products : []),
-  getPrice: state => (state.values ? state.values.price : 0)
+  getPrice: state => (state.values ? state.values.price.toFixed(2) : 0)
 }
 
 const actions = {
@@ -20,9 +20,18 @@ const actions = {
       this.clearBasket()
     }
 
-    if (state.values.products.find(item => item.id === product.id)) {
+    let productIndex = state.values.products.find(item => item.id === product.id)
+    if (productIndex) {
+      if (productIndex.quantity >= product.available) {
+        return notify.$toast.warning('Product availability is too low.', 'Warning!',
+          { close: true, toastOnce: true, position: 'topRight' });
+      }
       commit('incrementQuantity', product.id)
     } else {
+      if (!product.available) {
+        return notify.$toast.warning('Product availability is too low.', 'Warning!',
+          { close: true, toastOnce: true, position: 'topRight' });
+      }
       commit('addProduct', product)
       notify.$toast.success('New product has been added to your cart. :)', 'Success!',
         { close: true, toastOnce: true, position: 'topRight' });
@@ -38,7 +47,7 @@ const actions = {
     }
 
     let productIndex = state.values.products.find(item => item.id === product.id)
-    if (!productIndex) return;
+    if (!productIndex) return false
 
     if (productIndex.quantity === 1 || soft === true) {
       commit('removeProduct', productIndex.id)
@@ -62,6 +71,7 @@ const mutations = {
       slug: product.slug,
       name: product.name,
       price: product.price,
+      available: product.available,
       quantity: 1
     })
     state.values.price += product.price

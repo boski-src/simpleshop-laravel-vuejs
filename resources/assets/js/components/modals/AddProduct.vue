@@ -50,7 +50,7 @@
                       class="form-control"
                       v-model="addProduct.price"
                       step="0.01"
-                      v-validate="'required|integer|min:1'"
+                      v-validate="'required|decimal|min:1'"
               >
               <span class="text-danger small">{{ errors.first('price') }}</span>
             </div>

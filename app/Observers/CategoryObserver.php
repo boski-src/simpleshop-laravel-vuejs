@@ -8,11 +8,11 @@ class CategoryObserver
 {
     public function creating(Categories $categories)
     {
-        $categories->created_by = isset(auth()->user()->id) ? auth()->user()->id : null;
+        if (isset(auth()->user()->id)) $categories->created_by = auth()->user()->id;
     }
 
     public function updating(Categories $categories)
     {
-        $categories->updated_by = isset(auth()->user()->id) ? auth()->user()->id : null;
+        if (isset(auth()->user()->id)) $categories->updated_by = auth()->user()->id;
     }
 }
