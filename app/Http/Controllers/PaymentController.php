@@ -81,18 +81,14 @@ class PaymentController extends Controller
         }
 
         $order = $this->ordersRepository->getOrder($data['custom'], false);
+        $payment = $this->paymentRepository->addPayment($data);
+        $this->ordersRepository->updateOrder($order['id'], [
+            'status' => $order['status'],
+            'paid' => 1,
+            'payment_status' => $payment['payment_status'],
+            'payment_id' => $payment['id']
+        ]);
 
-
-            $payment = $this->paymentRepository->addPayment($data);
-
-            $this->ordersRepository->updateOrder($order['id'], [
-                'status' => $order['status'],
-                'paid' => 1,
-                'payment_status' => $payment['payment_status'],
-                'payment_id' => $payment['id']
-            ]);
-
-            return response()->json(['status' => true], 200);
-
+        return response()->json(['status' => true], 200);
     }
 }
