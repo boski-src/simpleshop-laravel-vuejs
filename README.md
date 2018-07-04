@@ -36,9 +36,9 @@ Step by step, how to get an app running.
 	```
 	php artisan user:privilage
 	```
-#### Build JavaScripts	
+#### Build JavaScript
 ```
-npm run build
+npm run prod
 ```
 #### Build with
 * [Laravel 5.6](https://laravel.com/) PHP framework
